@@ -539,6 +539,24 @@ function renderLinks() {
         const toNode = document.querySelector(`.node[data-id="${link.to}"]`);
         if (!fromNode || !toNode) return;
 
+        // Récupérer les positions réelles des nœuds
+        const fromRect = fromNode.getBoundingClientRect();
+        const toRect = toNode.getBoundingClientRect();
+        const treeRect = tree.getBoundingClientRect();
+
+        // Calculer les coordonnées du centre des nœuds
+        const fromX = fromRect.left + fromRect.width / 2 - treeRect.left;
+        const fromY = fromRect.top + fromRect.height / 2 - treeRect.top;
+        const toX = toRect.left + toRect.width / 2 - treeRect.left;
+        const toY = toRect.top + toRect.height / 2 - treeRect.top;
+
+        // Calculer la distance et l'angle entre les deux nœuds
+        const dx = toX - fromX;
+        const dy = toY - fromY;
+        const length = Math.sqrt(dx * dx + dy * dy);
+        const angle = Math.atan2(dy, dx);
+
+        // Créer le lien
         const line = document.createElement('div');
         line.className = 'connection';
 
@@ -554,15 +572,14 @@ function renderLinks() {
             line.classList.add('highlight');
         }
 
-        const dx = (toTalent.x - fromTalent.x) * scale;
-        const dy = (toTalent.y - fromTalent.y) * scale;
-        const length = Math.sqrt(dx * dx + dy * dy);
-        const angle = Math.atan2(dy, dx);
-
+        // Appliquer les styles au lien
         line.style.width = `${length}px`;
+        line.style.height = '2px';
         line.style.transform = `rotate(${angle}rad)`;
-        line.style.left = `${fromTalent.x * scale + 20 * scale}px`;
-        line.style.top = `${fromTalent.y * scale + 20 * scale}px`;
+        line.style.position = 'absolute';
+        line.style.left = `${fromX}px`;
+        line.style.top = `${fromY}px`;
+        line.style.transformOrigin = '0 0';
 
         tree.appendChild(line);
     });
