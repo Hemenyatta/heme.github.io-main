@@ -3,222 +3,124 @@ const talentTrees = {
         name: "Cristalomancien",
         // Liste des talents pour la classe 1
         talents: [
-          { id: 1, name: "Sommet du Cristal", description: "Bonus de concentration +15%", image: "images/talents/fire.png", x: 417, y: 1282, prerequisites: [] },
-          { id: 2, name: "Arête Gauche Supérieure", description: "Résistance aux sorts +10%", image: "images/talents/fire.png", x: 112, y: 974, prerequisites: [] },
-          { id: 3, name: "Arête Droite Supérieure", description: "Dégâts magiques +10%", image: "images/talents/fire.png", x: 355, y: 1060, prerequisites: [] },
-          { id: 4, name: "Arête Gauche Moyenne", description: "Vitesse d’attaque +5%", image: "images/talents/fire.png", x: 456, y: 1156, prerequisites: [] },
-          { id: 5, name: "Cœur Gauche", description: "Soins +5%", image: "images/talents/fire.png", x: 692, y: 1041, prerequisites: [] },
-          { id: 6, name: "Extrémité Gauche", description: "Résistance physique +10%", image: "images/talents/fire.png", x: 21, y: 744, prerequisites: [] },
-          { id: 7, name: "Base Gauche", description: "Défense +15%", image: "images/talents/fire.png", x: 115, y: 791, prerequisites: [] },
-          { id: 8, name: "Cœur Central", description: "Bonus de régénération +10%", image: "images/talents/fire.png", x: 410, y: 944, prerequisites: [] },
-          { id: 9, name: "Arête Droite Moyenne", description: "Dégâts de feu +10%", image: "images/talents/fire.png", x: 772, y: 862, prerequisites: [] },
-          { id: 10, name: "Fracture Gauche", description: "Critique +5%", image: "images/talents/fire.png", x: 58, y: 574, prerequisites: [] },
-          { id: 11, name: "Éclat de Givre", description: "Résistance au froid +15%", image: "images/talents/fire.png", x: 119, y: 670, prerequisites: [] },
-          { id: 12, name: "Lumière Gauche", description: "Dégâts de lumière +10%", image: "images/talents/fire.png", x: 211, y: 642, prerequisites: [] },
-          { id: 13, name: "Lumière Droite", description: "Dégâts sacrés +10%", image: "images/talents/fire.png", x: 557, y: 645, prerequisites: [] },
-          { id: 14, name: "Fracture Droite", description: "Pénétration magique +10%", image: "images/talents/fire.png", x: 779, y: 648, prerequisites: [] },
-          { id: 15, name: "Pic Central", description: "Mana +20%", image: "images/talents/fire.png", x: 300, y: 191, prerequisites: [] },
-          { id: 16, name: "Équilibre", description: "Stabilité +15%", image: "images/talents/fire.png", x: 483, y: 275, prerequisites: [] },
-          { id: 17, name: "Sommet Inférieur", description: "Bonus d’expérience +10%", image: "images/talents/fire.png", x: 593, y: 427, prerequisites: [] },
-          { id: 18, name: "Ancrage Magique", description: "Coût en mana -10%", image: "images/talents/fire.png", x: 688, y: 378, prerequisites: [] },
-          { id: 19, name: "Harmonie", description: "Bonus de groupe +10%", image: "images/talents/fire.png", x: 348, y: 121, prerequisites: [] },
-          { id: 20, name: "Écho Magique", description: "Dégâts de zone +15%", image: "images/talents/fire.png", x: 506, y: 166, prerequisites: [] },
-          { id: 21, name: "Noyau", description: "Tous les attributs +5%", image: "images/talents/fire.png", x: 647, y: 234, prerequisites: [] },
-          { id: 22, name: "Apogée", description: "Bonus ultime +25%", image: "images/talents/fire.png", x: 461, y: 44, prerequisites: [] }
+          { id: 1, name: "Sommet du Cristal", description: "Bonus de concentration +15%", image: "images/talents/fire.png", x: 416, y: 1176, prerequisites: [] },
+          { id: 2, name: "Arête Gauche Supérieure", description: "Résistance aux sorts +10%", image: "images/talents/fire.png", x: 315, y: 1043, prerequisites: [] },
+          { id: 3, name: "Arête Droite Supérieure", description: "Dégâts magiques +10%", image: "images/talents/fire.png", x: 415, y: 1109, prerequisites: [] },
+          { id: 4, name: "Arête Gauche Moyenne", description: "Vitesse d’attaque +5%", image: "images/talents/fire.png", x: 534, y: 1057, prerequisites: [] },
+          { id: 5, name: "Cœur Gauche", description: "Soins +5%", image: "images/talents/fire.png", x: 161, y: 857, prerequisites: [] },
+          { id: 6, name: "Extrémité Gauche", description: "Résistance physique +10%", image: "images/talents/fire.png", x: 363, y: 923, prerequisites: [] },
+          { id: 7, name: "Base Gauche", description: "Défense +15%", image: "images/talents/fire.png", x: 448, y: 1006, prerequisites: [] },
+          { id: 8, name: "Cœur Central", description: "Bonus de régénération +10%", image: "images/talents/fire.png", x: 646, y: 913, prerequisites: [] },
+          { id: 9, name: "Arête Droite Moyenne", description: "Dégâts de feu +10%", image: "images/talents/fire.png", x: 80, y: 661, prerequisites: [] },
+          { id: 10, name: "Fracture Gauche", description: "Critique +5%", image: "images/talents/fire.png", x: 163, y: 700, prerequisites: [] },
+          { id: 11, name: "Éclat de Givre", description: "Résistance au froid +15%", image: "images/talents/fire.png", x: 409, y: 827, prerequisites: [] },
+          { id: 12, name: "Lumière Gauche", description: "Dégâts de lumière +10%", image: "images/talents/fire.png", x: 715, y: 762, prerequisites: [] },
+          { id: 13, name: "Lumière Droite", description: "Dégâts sacrés +10%", image: "images/talents/fire.png", x: 115, y: 520, prerequisites: [] },
+          { id: 14, name: "Fracture Droite", description: "Pénétration magique +10%", image: "images/talents/fire.png", x: 164, y: 599, prerequisites: [] },
+          { id: 15, name: "Pic Central", description: "Mana +20%", image: "images/talents/fire.png", x: 240, y: 576, prerequisites: [] },
+          { id: 16, name: "Équilibre", description: "Stabilité +15%", image: "images/talents/fire.png", x: 535, y: 580, prerequisites: [] },
+          { id: 17, name: "Sommet Inférieur", description: "Bonus d’expérience +10%", image: "images/talents/fire.png", x: 719, y: 580, prerequisites: [] },
+          { id: 18, name: "Ancrage Magique", description: "Coût en mana -10%", image: "images/talents/fire.png", x: 316, y: 197, prerequisites: [] },
+          { id: 19, name: "Harmonie", description: "Bonus de groupe +10%", image: "images/talents/fire.png", x: 472, y: 268, prerequisites: [] },
+          { id: 20, name: "Écho Magique", description: "Dégâts de zone +15%", image: "images/talents/fire.png", x: 563, y: 397, prerequisites: [] },
+          { id: 21, name: "Noyau", description: "Tous les attributs +5%", image: "images/talents/fire.png", x: 643, y: 353, prerequisites: [] },
+          { id: 22, name: "Apogée", description: "Bonus ultime +25%", image: "images/talents/fire.png", x: 355, y: 136, prerequisites: [] },
+          { id: 23, name: "Apogée2", description: "Bonus ultime +25%", image: "images/talents/fire.png", x: 491, y: 176, prerequisites: [] },
+          { id: 24, name: "Apogée3", description: "Bonus ultime +25%", image: "images/talents/fire.png", x: 610, y: 233, prerequisites: [] },
+          { id: 25, name: "Apogée4", description: "Bonus ultime +25%", image: "images/talents/fire.png", x: 452, y: 72, prerequisites: [] }
           ],
-        // Liste des liens pour la classe 1
+        // Liste des liens pour la classe 1 - Liens bidirectionnels
         links: [
-          // Liens depuis le nœud 1
-          { from: 1, to: 2 },
-          { from: 1, to: 3 },
-          { from: 1, to: 4 },
-          { from: 1, to: 5 },
+          // Nœud 1 -> 2, 3, 4
+          { from: 1, to: 2 }, { from: 2, to: 1 },
+          { from: 1, to: 3 }, { from: 3, to: 1 },
+          { from: 1, to: 4 }, { from: 4, to: 1 },
 
-          // Liens vers le nœud 2
-          { from: 1, to: 2 },
-          { from: 3, to: 2 },
-          { from: 6, to: 2 },
-          { from: 7, to: 2 },
+          // Nœud 2 -> 5, 1 (1 déjà couvert)
+          { from: 2, to: 5 }, { from: 5, to: 2 },
+          { from: 2, to: 6 }, { from: 6, to: 2 },
 
-          // Liens vers le nœud 3
-          { from: 1, to: 3 },
-          { from: 2, to: 3 },
-          { from: 7, to: 3 },
-          { from: 8, to: 3 },
+          // Nœud 3 -> 6, 7, 1 (1 déjà couvert)
+          { from: 3, to: 6 }, { from: 6, to: 3 },
+          { from: 3, to: 7 }, { from: 7, to: 3 },
 
-          // Liens depuis le nœud 2
-          { from: 2, to: 6 },
-          { from: 2, to: 7 },
-          { from: 2, to: 1 },
+          // Nœud 4 -> 8, 1 (1 déjà couvert)
+          { from: 4, to: 8 }, { from: 8, to: 4 },
 
-          // Liens depuis le nœud 3
-          { from: 3, to: 7 },
-          { from: 3, to: 8 },
-          { from: 3, to: 1 },
+          // Nœud 5 -> 2, 6, 9, 10 (2 déjà couvert)
+          { from: 5, to: 6 }, { from: 6, to: 5 },
+          { from: 5, to: 9 }, { from: 9, to: 5 },
+          { from: 5, to: 10 }, { from: 10, to: 5 },
 
-          // Liens depuis le nœud 4
-          { from: 4, to: 8 },
-          { from: 4, to: 9 },
-          { from: 4, to: 1 },
+          // Nœud 6 -> 3, 5, 7, 10, 11 (3, 5, 10 déjà couverts)
+          { from: 6, to: 7 }, { from: 7, to: 6 },
+          { from: 6, to: 11 }, { from: 11, to: 6 },
 
-          // Liens depuis le nœud 5
-          { from: 5, to: 9 },
-          { from: 5, to: 1 },
+          // Nœud 7 -> 3, 6, 12 (3, 6 déjà couverts)
+          { from: 7, to: 12 }, { from: 12, to: 7 },
+          { from: 7, to: 8 }, { from: 8, to: 7 },
+          { from: 7, to: 11 }, { from: 11, to: 7 },
 
-          // Liens vers le nœud 6
-          { from: 2, to: 6 },
-          { from: 10, to: 6 },
+          // Nœud 8 -> 4, 12 (4 déjà couvert)
+          { from: 8, to: 12 }, { from: 12, to: 8 },
 
-          // Liens depuis le nœud 6
-          { from: 6, to: 10 },
+          // Nœud 9 -> 5, 13 (5 déjà couvert)
+          { from: 9, to: 13 }, { from: 13, to: 9 },
 
-          // Liens vers le nœud 7
-          { from: 2, to: 7 },
-          { from: 3, to: 7 },
+          // Nœud 10 -> 5, 6, 14, 15 (5, 6 déjà couverts)
+          { from: 10, to: 14 }, { from: 14, to: 10 },
+          { from: 10, to: 15 }, { from: 15, to: 10 },
 
-          // Liens depuis le nœud 7
-          { from: 7, to: 11 },
-          { from: 7, to: 12 },
+          // Nœud 11 -> 6, 15, 16 (6 déjà couvert)
+          { from: 11, to: 15 }, { from: 15, to: 11 },
+          { from: 11, to: 16 }, { from: 16, to: 11 },
 
-          // Liens vers le nœud 8
-          { from: 3, to: 8 },
-          { from: 4, to: 8 },
+          // Nœud 12 -> 7, 8, 16, 17 (7, 8 déjà couverts)
+          { from: 12, to: 16 }, { from: 16, to: 12 },
+          { from: 12, to: 17 }, { from: 17, to: 12 },
 
-          // Liens depuis le nœud 8
-          { from: 8, to: 12 },
-          { from: 8, to: 13 },
-          { from: 8, to: 4 },
+          // Nœud 13 -> 9, 14, 18 (9 déjà couvert)
+          { from: 13, to: 14 }, { from: 14, to: 13 },
+          { from: 13, to: 18 }, { from: 18, to: 13 },
 
-          // Liens vers le nœud 9
-          { from: 4, to: 9 },
-          { from: 5, to: 9 },
+          // Nœud 14 -> 10, 13, 15, 18 (10, 13, 18 déjà couverts)
+          { from: 14, to: 15 }, { from: 15, to: 14 },
 
-          // Liens depuis le nœud 9
-          { from: 9, to: 13 },
-          { from: 9, to: 14 },
-          { from: 9, to: 4 },
-          { from: 9, to: 5 },
+          // Nœud 15 -> 10, 11, 14, 18, 19 (10, 11, 14 déjà couverts)
+          { from: 15, to: 18 }, { from: 18, to: 15 },
+          { from: 15, to: 19 }, { from: 19, to: 15 },
 
-          // Liens vers le nœud 10
-          { from: 6, to: 10 },
-          { from: 11, to: 10 },
-          { from: 15, to: 10 },
+          // Nœud 16 -> 11, 12, 19, 20 (11, 12 déjà couverts)
+          { from: 16, to: 19 }, { from: 19, to: 16 },
+          { from: 16, to: 20 }, { from: 20, to: 16 },
 
-          // Liens depuis le nœud 10
-          { from: 10, to: 15 },
+          // Nœud 17 -> 12, 20, 21 (12 déjà couvert)
+          { from: 17, to: 20 }, { from: 20, to: 17 },
+          { from: 17, to: 21 }, { from: 21, to: 17 },
 
-          // Liens vers le nœud 11
-          { from: 11, to: 7 },
-          { from: 10, to: 11 },
-          { from: 12, to: 11 },
-          { from: 15, to: 11 },
+          // Nœud 18 -> 13, 14, 15, 22 (13, 14, 15 déjà couverts)
+          { from: 18, to: 22 }, { from: 22, to: 18 },
 
-          // Liens depuis le nœud 11
-          { from: 11, to: 12 },
-          { from: 11, to: 15 },
+          // Nœud 19 -> 15, 16, 23 (15, 16 déjà couverts)
+          { from: 19, to: 23 }, { from: 23, to: 19 },
 
-          // Liens vers le nœud 12
-          { from: 7, to: 12 },
-          { from: 8, to: 12 },
-          { from: 11, to: 12 },
+          // Nœud 20 -> 16, 17, 23 (16, 17 déjà couverts)
+          { from: 20, to: 23 }, { from: 23, to: 20 },
 
-          // Liens depuis le nœud 12
-          { from: 12, to: 15 },
-          { from: 12, to: 16 },
-          { from: 12, to: 7 },
-          { from: 12, to: 8 },
+          // Nœud 21 -> 17, 24 (17 déjà couvert)
+          { from: 21, to: 24 }, { from: 24, to: 21 },
 
-          // Liens vers le nœud 13
-          { from: 8, to: 13 },
-          { from: 9, to: 13 },
+          // Nœud 22 -> 18, 25 (18 déjà couvert)
+          { from: 22, to: 25 }, { from: 25, to: 22 },
 
-          // Liens depuis le nœud 13
-          { from: 13, to: 16 },
-          { from: 13, to: 17 },
-          { from: 13, to: 9 },
-          { from: 13, to: 8 },
+          // Nœud 23 -> 19, 22, 24, 25 (19, 22 déjà couverts)
+          { from: 23, to: 24 }, { from: 24, to: 23 },
+          { from: 23, to: 25 }, { from: 25, to: 23 },
 
-          // Liens vers le nœud 14
-          { from: 9, to: 14 },
-          { from: 17, to: 14 },
-          { from: 18, to: 14 },
+          // Nœud 24 -> 21, 23, 25 (21, 23 déjà couverts)
+          { from: 24, to: 25 }, { from: 25, to: 24 }
 
-          // Liens depuis le nœud 14
-          { from: 14, to: 17 },
-          { from: 14, to: 18 },
-          { from: 14, to: 9 },
-
-          // Liens vers le nœud 15
-          { from: 10, to: 15 },
-          { from: 11, to: 15 },
-          { from: 12, to: 15 },
-
-          // Liens depuis le nœud 15
-          { from: 15, to: 19 },
-          { from: 15, to: 12 },
-
-          // Liens vers le nœud 16
-          { from: 12, to: 16 },
-          { from: 13, to: 16 },
-
-          // Liens depuis le nœud 16
-          { from: 16, to: 20 },
-          { from: 16, to: 13 },
-          { from: 16, to: 12 },
-
-          // Liens vers le nœud 17
-          { from: 13, to: 17 },
-          { from: 14, to: 17 },
-
-          // Liens depuis le nœud 17
-          { from: 17, to: 20 },
-          { from: 17, to: 13 },
-
-          // Liens vers le nœud 18
-          { from: 14, to: 18 },
-
-          // Liens depuis le nœud 18
-          { from: 18, to: 21 },
-
-          // Liens vers le nœud 19
-          { from: 15, to: 19 },
-          { from: 22, to: 19 },
-
-          // Liens depuis le nœud 19
-          { from: 19, to: 20 },
-          { from: 19, to: 22 },
-          { from: 19, to: 15 },
-
-          // Liens vers le nœud 20
-          { from: 16, to: 20 },
-          { from: 17, to: 20 },
-          { from: 19, to: 20 },
-
-          // Liens depuis le nœud 20
-          { from: 20, to: 16 },
-          { from: 20, to: 17 },
-          { from: 20, to: 19 },
-          { from: 20, to: 21 },
-          { from: 20, to: 22 },
-
-          // Liens vers le nœud 21
-          { from: 18, to: 21 },
-          { from: 20, to: 21 },
-
-          // Liens depuis le nœud 21
-          { from: 21, to: 22 },
-          { from: 21, to: 20 },
-          { from: 21, to: 18 },
-
-          // Liens vers le nœud 22
-          { from: 19, to: 22 },
-          { from: 20, to: 22 },
-          { from: 21, to: 22 },
-
-          // Liens depuis le nœud 22
-          { from: 22, to: 19 },
-          { from: 22, to: 20 },
-          { from: 22, to: 21 }
+          // Nœud 25 -> 22, 23, 24 (tous couverts)
         ]
     },
     class2: {
@@ -1088,3 +990,4 @@ window.addEventListener('resize', () => {
     renderTalentTree();
     renderLinks();
 });
+
