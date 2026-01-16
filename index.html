@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arbre de Talents - Project FI</title>
+  <style>
+    body, html {
+      background-color: #121212;
+      color: white;
+      font-family: "Corben", sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    #class-selector {
+      margin-bottom: 20px;
+    }
+
+    #tree-container {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: transparent;
+    }
+
+    #tree {
+        position: relative;
+        width: 1200px; /* Largeur fixe pour tous les arbres */
+        height: 1500px; /* Hauteur fixe pour tous les arbres */
+        transform-origin: center;
+        transform: scale(var(--scale-factor, 1));
+        background-color: transparent;
+    }
+
+    .node {
+      position: absolute;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .node:hover {
+      transform: scale(1.1);
+    }
+
+    .node-img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .node.active .node-img {
+      border: 2px solid gold;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+      animation: pulse 2s infinite;
+      transform: scale(1.15);
+    }
+
+    .node.active::before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, rgba(255, 215, 0, 0) 70%);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .connection {
+      position: absolute;
+      height: 2px;
+      background-color: #888;
+      transform-origin: 0 0;
+      z-index: -1;
+    }
+
+    .connection.active {
+      background-color: #ffd700;
+      height: 2px; /* Épaisseur augmentée */
+      box-shadow: 0 0 5px rgba(255, 215, 0, 0.7);
+    }
+
+    .node.highlight {
+      filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.5));
+    }
+
+    .node.highlight .node-img {
+        border: 2px solid rgba(255, 215, 0, 0.4);
+    }
+
+    .connection.highlight {
+      background-color: rgba(255, 215, 0, 0.5);
+      box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+    }
+
+    .tippy-box[data-theme~='light-border'] {
+        background-color: #222;
+        color: white;
+        border: 1px solid gold;
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+    .tippy-box[data-theme~='light-border'] .tippy-arrow {
+        border-bottom-color: gold;
+    }
+
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css">
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://unpkg.com/tippy.js@6"></script>
+</head>
+<body>
+  <select id="class-selector">
+    <option value="class1">Cristalomancien</option>
+    <option value="class2">Mécanicien</option>
+  </select>
+  <div id="tree-container">
+    <div id="tree"></div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
