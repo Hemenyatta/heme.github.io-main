@@ -20,11 +20,84 @@
       overflow: hidden;
     }
 
-    #class-selector {
-      margin-bottom: 20px;
+    /* Carousel des classes */
+    #carousel-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    #tree-container {
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50px;
+      height: 50px;
+      background-color: rgba(255, 215, 0, 0.2);
+      border: 2px solid #ffd700;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: #ffd700;
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+
+    .carousel-arrow:hover {
+      background-color: rgba(255, 215, 0, 0.4);
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+    }
+
+    .carousel-arrow.left {
+      left: 20px;
+    }
+
+    .carousel-arrow.right {
+      right: 20px;
+    }
+
+    #carousel-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    #carousel {
+      display: flex;
+      height: 100%;
+      transition: transform 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+
+    .tree-slot {
+      flex: 1;
+      position: relative;
+      min-width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0.3;
+      transition: opacity 0.5s ease;
+    }
+
+    .tree-slot.active {
+      opacity: 1;
+      z-index: 10;
+    }
+
+    .tree-slot.prev,
+    .tree-slot.next {
+      opacity: 0.2;
+    }
+
+    .tree-container {
         position: relative;
         width: 100%;
         height: 100%;
@@ -35,7 +108,7 @@
         background-color: transparent;
     }
 
-    #tree {
+    .tree {
         position: relative;
         width: 1200px;
         height: 1500px;
@@ -119,16 +192,76 @@
       100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
     }
 
-    .tippy-box[data-theme~='light-border'] {
-        background-color: #222;
+    /* Amélioration des tooltips */
+    .tippy-box[data-theme~='talent-tooltip'] {
+        background-color: #1a1f33;
         color: white;
-        border: 1px solid gold;
-        border-radius: 5px;
-        padding: 10px;
+        border: 2px solid #ffd700;
+        border-radius: 8px;
+        padding: 0;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.2);
+        font-family: "Corben", sans-serif;
     }
 
-    .tippy-box[data-theme~='light-border'] .tippy-arrow {
-        border-bottom-color: gold;
+    .tippy-box[data-theme~='talent-tooltip'][data-placement^='top'] > .tippy-arrow {
+        border-top-color: #ffd700;
+    }
+
+    .tippy-box[data-theme~='talent-tooltip'][data-placement^='bottom'] > .tippy-arrow {
+        border-bottom-color: #ffd700;
+    }
+
+    .tippy-box[data-theme~='talent-tooltip'][data-placement^='left'] > .tippy-arrow {
+        border-left-color: #ffd700;
+    }
+
+    .tippy-box[data-theme~='talent-tooltip'][data-placement^='right'] > .tippy-arrow {
+        border-right-color: #ffd700;
+    }
+
+    .tooltip-content {
+        padding: 12px 16px;
+    }
+
+    .tooltip-title {
+        font-size: 16px;
+        font-weight: bold;
+        color: #ffd700;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .tooltip-description {
+        font-size: 14px;
+        color: #e0e0e0;
+        margin-bottom: 12px;
+        line-height: 1.4;
+    }
+
+    .tooltip-status {
+        border-top: 1px solid rgba(255, 215, 0, 0.3);
+        padding-top: 10px;
+        margin-top: 10px;
+        font-size: 12px;
+        text-align: center;
+    }
+
+    .tooltip-status.active {
+        color: #4ade80;
+    }
+
+    .tooltip-status.available {
+        color: #ffd700;
+    }
+
+    .tooltip-status.locked {
+        color: #ef4444;
+    }
+
+    /* Classe pour les arbres inactifs */
+    .tree-slot:not(.active) .tree {
+      pointer-events: none;
     }
 
   </style>
@@ -137,13 +270,18 @@
   <script src="https://unpkg.com/tippy.js@6"></script>
 </head>
 <body>
-  <select id="class-selector">
-    <option value="class1">Cristalomancien</option>
-    <option value="class2">Mécanicien</option>
-  </select>
-  <div id="tree-container">
-    <div id="tree"></div>
+  <div id="carousel-container">
+    <div class="carousel-arrow left" id="carousel-left">❮</div>
+    
+    <div id="carousel-wrapper">
+      <div id="carousel">
+        <!-- Les slots seront générés par JavaScript -->
+      </div>
+    </div>
+    
+    <div class="carousel-arrow right" id="carousel-right">❯</div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
