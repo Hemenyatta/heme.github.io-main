@@ -532,40 +532,55 @@ function updateCarouselPosition() {
     const actualClassIndex = currentIndex % classes.length;
     const classKey = classes[actualClassIndex];
     
-    // Mettre à jour les classes active/prev/next
-    document.querySelectorAll('.tree-slot').forEach((slot, index) => {
-        slot.classList.remove('active', 'prev', 'next');
-        if (index === currentIndex) {
-            slot.classList.add('active');
-        } else if (index < currentIndex) {
-            slot.classList.add('prev');
-        } else {
-            slot.classList.add('next');
-        }
+    // Appliquer le fade out à tous les arbres
+    document.querySelectorAll('.tree').forEach(tree => {
+        tree.classList.add('fade-out');
     });
+    
+    // Attendre que le fade se termine avant de mettre à jour le contenu (au milieu du mouvement)
+    setTimeout(() => {
+        // Mettre à jour les classes active/prev/next
+        document.querySelectorAll('.tree-slot').forEach((slot, index) => {
+            slot.classList.remove('active', 'prev', 'next');
+            if (index === currentIndex) {
+                slot.classList.add('active');
+            } else if (index < currentIndex) {
+                slot.classList.add('prev');
+            } else {
+                slot.classList.add('next');
+            }
+        });
 
-    // Mettre à jour l'arbre actif
-    currentClass = classKey;
-    currentTalents = JSON.parse(JSON.stringify(talentTrees[currentClass].talents));
-    currentLinks = talentTrees[currentClass].links;
-    currentTalents = generatePrerequisites(currentTalents, currentLinks);
+        // Mettre à jour l'arbre actif
+        currentClass = classKey;
+        currentTalents = JSON.parse(JSON.stringify(talentTrees[currentClass].talents));
+        currentLinks = talentTrees[currentClass].links;
+        currentTalents = generatePrerequisites(currentTalents, currentLinks);
 
-    // Rendre l'arbre actif
-    const activeSlot = document.querySelector('.tree-slot.active');
-    if (activeSlot) {
-        const tree = activeSlot.querySelector(`#tree-${currentIndex}`);
-        if (tree) {
-            tree.innerHTML = ''; // Vider complètement le tree avant de rendre
-            renderTalentTree();
-            renderLinks();
-            setupNodeListeners();
-            // Attendre que le DOM soit mis à jour avant d'ajuster les coordonnées
-            requestAnimationFrame(() => {
-                adjustCoordinates();
-                initTooltips();
-            });
+        // Rendre l'arbre actif
+        const activeSlot = document.querySelector('.tree-slot.active');
+        if (activeSlot) {
+            const tree = activeSlot.querySelector(`#tree-${currentIndex}`);
+            if (tree) {
+                tree.innerHTML = ''; // Vider complètement le tree avant de rendre
+                renderTalentTree();
+                renderLinks();
+                setupNodeListeners();
+                // Attendre que le DOM soit mis à jour avant d'ajuster les coordonnées
+                requestAnimationFrame(() => {
+                    adjustCoordinates();
+                    initTooltips();
+                });
+            }
         }
-    }
+        
+        // Retirer le fade out et ajouter le fade in
+        setTimeout(() => {
+            document.querySelectorAll('.tree').forEach(tree => {
+                tree.classList.remove('fade-out');
+            });
+        }, 0);
+    }, 600);
 }
 
 
