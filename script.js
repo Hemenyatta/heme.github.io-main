@@ -280,6 +280,118 @@ const talentTrees = {
           { from: 2, to: 25 }
         ]
     },
+    class3: {
+        name: "Druide",
+        // Liste des talents pour la classe 3
+        talents: [
+          { id: 1, name: "Talent 1", description: "Description placeholder", image: "images/talents/nature.png", x: 716, y: 1136, prerequisites: [] },
+          { id: 2, name: "Talent 2", description: "Description placeholder", image: "images/talents/nature.png", x: 498, y: 1012, prerequisites: [] },
+          { id: 3, name: "Talent 3", description: "Description placeholder", image: "images/talents/nature.png", x: 530, y: 784, prerequisites: [] },
+          { id: 4, name: "Talent 4", description: "Description placeholder", image: "images/talents/nature.png", x: 580, y: 892, prerequisites: [] },
+          { id: 5, name: "Talent 5", description: "Description placeholder", image: "images/talents/nature.png", x: 748, y: 967, prerequisites: [] },
+          { id: 6, name: "Talent 6", description: "Description placeholder", image: "images/talents/nature.png", x: 942, y: 941, prerequisites: [] },
+          { id: 7, name: "Talent 7", description: "Description placeholder", image: "images/talents/nature.png", x: 845, y: 829, prerequisites: [] },
+          { id: 8, name: "Talent 8", description: "Description placeholder", image: "images/talents/nature.png", x: 1088, y: 785, prerequisites: [] },
+          { id: 9, name: "Talent 9", description: "Description placeholder", image: "images/talents/nature.png", x: 1137, y: 532, prerequisites: [] },
+          { id: 10, name: "Talent 10", description: "Description placeholder", image: "images/talents/nature.png", x: 872, y: 424, prerequisites: [] },
+          { id: 11, name: "Talent 11", description: "Description placeholder", image: "images/talents/nature.png", x: 894, y: 256, prerequisites: [] },
+          { id: 12, name: "Talent 12", description: "Description placeholder", image: "images/talents/nature.png", x: 771, y: 23, prerequisites: [] },
+          { id: 13, name: "Talent 13", description: "Description placeholder", image: "images/talents/nature.png", x: 534, y: 127, prerequisites: [] },
+          { id: 14, name: "Talent 14", description: "Description placeholder", image: "images/talents/nature.png", x: 498, y: 311, prerequisites: [] },
+          { id: 15, name: "Talent 15", description: "Description placeholder", image: "images/talents/nature.png", x: 446, y: 214, prerequisites: [] },
+          { id: 16, name: "Talent 16", description: "Description placeholder", image: "images/talents/nature.png", x: 216, y: 324, prerequisites: [] },
+          { id: 17, name: "Talent 17", description: "Description placeholder", image: "images/talents/nature.png", x: 268, y: 560, prerequisites: [] },
+          { id: 18, name: "Talent 18", description: "Description placeholder", image: "images/talents/nature.png", x: 58, y: 611, prerequisites: [] },
+          { id: 19, name: "Talent 19", description: "Description placeholder", image: "images/talents/nature.png", x: 158, y: 750, prerequisites: [] },
+          { id: 20, name: "Talent 20", description: "Description placeholder", image: "images/talents/nature.png", x: 327, y: 851, prerequisites: [] },
+          { id: 21, name: "Talent 21", description: "Description placeholder", image: "images/talents/nature.png", x: 396, y: 618, prerequisites: [] },
+          { id: 22, name: "Talent 22", description: "Description placeholder", image: "images/talents/nature.png", x: 547, y: 454, prerequisites: [] },
+          { id: 23, name: "Talent 23", description: "Description placeholder", image: "images/talents/nature.png", x: 575, y: 647, prerequisites: [] },
+          { id: 24, name: "Talent 24", description: "Description placeholder", image: "images/talents/nature.png", x: 733, y: 516, prerequisites: [] },
+          { id: 25, name: "Talent 25", description: "Description placeholder", image: "images/talents/nature.png", x: 739, y: 777, prerequisites: [] }
+        ],
+        // Liste des liens pour la classe 3 - Liens bidirectionnels
+        links: [
+          // Nœud 1 -> 2
+          { from: 1, to: 2 }, { from: 2, to: 1 },
+
+          // Nœud 2 -> 1, 3 (1 déjà couvert)
+          { from: 2, to: 3 }, { from: 3, to: 2 },
+
+          // Nœud 3 -> 2, 4, 20, 21, 23, 25 (2 déjà couvert)
+          { from: 3, to: 4 }, { from: 4, to: 3 },
+          { from: 3, to: 20 }, { from: 20, to: 3 },
+          { from: 3, to: 21 }, { from: 21, to: 3 },
+          { from: 3, to: 23 }, { from: 23, to: 3 },
+          { from: 3, to: 25 }, { from: 25, to: 3 },
+
+          // Nœud 4 -> 3, 5 (3 déjà couvert)
+          { from: 4, to: 5 }, { from: 5, to: 4 },
+
+          // Nœud 5 -> 4, 6 (4 déjà couvert)
+          { from: 5, to: 6 }, { from: 6, to: 5 },
+
+          // Nœud 6 -> 5, 7 (5 déjà couvert)
+          { from: 6, to: 7 }, { from: 7, to: 6 },
+
+          // Nœud 7 -> 6, 8, 25 (6 déjà couvert)
+          { from: 7, to: 8 }, { from: 8, to: 7 },
+          { from: 7, to: 25 }, { from: 25, to: 7 },
+
+          // Nœud 8 -> 7, 9 (7 déjà couvert)
+          { from: 8, to: 9 }, { from: 9, to: 8 },
+
+          // Nœud 9 -> 8, 10 (8 déjà couvert)
+          { from: 9, to: 10 }, { from: 10, to: 9 },
+
+          // Nœud 10 -> 9, 11, 24 (9 déjà couvert)
+          { from: 10, to: 11 }, { from: 11, to: 10 },
+          { from: 10, to: 24 }, { from: 24, to: 10 },
+
+          // Nœud 11 -> 10, 12 (10 déjà couvert)
+          { from: 11, to: 12 }, { from: 12, to: 11 },
+
+          // Nœud 12 -> 11, 13 (11 déjà couvert)
+          { from: 12, to: 13 }, { from: 13, to: 12 },
+
+          // Nœud 13 -> 12, 14 (12 déjà couvert)
+          { from: 13, to: 14 }, { from: 14, to: 13 },
+
+          // Nœud 14 -> 13, 15, 22 (13 déjà couvert)
+          { from: 14, to: 15 }, { from: 15, to: 14 },
+          { from: 14, to: 22 }, { from: 22, to: 14 },
+
+          // Nœud 15 -> 14, 16 (14 déjà couvert)
+          { from: 15, to: 16 }, { from: 16, to: 15 },
+
+          // Nœud 16 -> 15, 17 (15 déjà couvert)
+          { from: 16, to: 17 }, { from: 17, to: 16 },
+
+          // Nœud 17 -> 16, 18, 21 (16 déjà couvert)
+          { from: 17, to: 18 }, { from: 18, to: 17 },
+          { from: 17, to: 21 }, { from: 21, to: 17 },
+
+          // Nœud 18 -> 17, 19 (17 déjà couvert)
+          { from: 18, to: 19 }, { from: 19, to: 18 },
+
+          // Nœud 19 -> 18, 20 (18 déjà couvert)
+          { from: 19, to: 20 }, { from: 20, to: 19 },
+
+          // Nœud 20 -> 19, 3 (tous couverts)
+
+          // Nœud 21 -> 3, 17 (tous couverts)
+
+          // Nœud 22 -> 14, 23 (14 déjà couvert)
+          { from: 22, to: 23 }, { from: 23, to: 22 },
+
+          // Nœud 23 -> 3, 22, 24 (3, 22 déjà couverts)
+          { from: 23, to: 24 }, { from: 24, to: 23 },
+
+          // Nœud 24 -> 10, 23 (tous couverts)
+
+          // Nœud 25 -> 3, 7 (tous couverts)
+        ]
+    },
 };
 
 function generatePrerequisites(talents, links) {
