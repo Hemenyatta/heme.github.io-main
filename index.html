@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Arbre de Talents - Project FI</title>
   <style>
+    :root {
+        --scale-factor: 1;
+    }
+
     body, html {
       background-color: #151a32;
       color: white;
@@ -33,8 +37,8 @@
 
     #tree {
         position: relative;
-        width: 100%;
-        height: 100%;
+        width: 1200px;
+        height: 1500px;
         transform-origin: center;
         transform: scale(var(--scale-factor, 1));
         background-color: transparent;
@@ -46,10 +50,11 @@
       transition: transform 0.2s;
       width: 40px;
       height: 40px;
+      transform: translate(-50%, -50%);
     }
 
     .node:hover {
-      transform: scale(1.1);
+      transform: translate(-50%, -50%) scale(1.1);
     }
 
     .node-img {
@@ -91,7 +96,7 @@
 
     .connection.active {
       background-color: #ffd700;
-      height: 2px; /* Épaisseur augmentée */
+      height: 2px;
       box-shadow: 0 0 5px rgba(255, 215, 0, 0.7);
     }
 
