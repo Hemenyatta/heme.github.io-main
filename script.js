@@ -530,14 +530,16 @@ function renderTalentTree() {
         const node = document.createElement('div');
         node.className = 'node';
 
-        if (activeTalents.includes(talent.id.toString())) {
+        const isActive = activeTalents.includes(talent.id.toString());
+        
+        if (isActive) {
             node.classList.add('active');
         }
 
         // Vérifie si le talent est accessible ET s'il y a un lien direct depuis un nœud actif
-        const isAccessible = checkPrerequisites(talent.id);
-        const isNotActive = !activeTalents.includes(talent.id.toString());
-        const hasDirectLinkFromActive = hasDirectLinkFromActiveNode(talent.id);
+        const isAccessible = checkPrerequisites(talent.id, activeTalents);
+        const isNotActive = !isActive;
+        const hasDirectLinkFromActive = hasDirectLinkFromActiveNode(talent.id, activeTalents);
         
         if (isAccessible && isNotActive && hasDirectLinkFromActive) {
             node.classList.add('highlight');
@@ -545,7 +547,6 @@ function renderTalentTree() {
 
         node.dataset.id = talent.id;
         node.dataset.tooltip = talent.description;
-        // Utiliser left et top sans transform
         node.style.left = `${talent.x}px`;
         node.style.top = `${talent.y}px`;
 
@@ -567,16 +568,13 @@ function renderTalentTree() {
 }
 
 // Vérifie s'il existe un lien DIRECT depuis/vers un nœud actif
-function hasDirectLinkFromActiveNode(talentId) {
-    const activeNodes = Array.from(document.querySelectorAll('.node.active'))
-        .map(node => parseInt(node.dataset.id));
+function hasDirectLinkFromActiveNode(talentId, activeTalents) {
+    const activeIds = activeTalents.map(id => parseInt(id));
 
     // Vérifier s'il existe un lien DIRECT dans les deux sens:
-    // 1. Un nœud actif → ce talent
-    // 2. Ce talent → un nœud actif (lien inverse)
     return currentLinks.some(link => 
-        (link.to === talentId && activeNodes.includes(link.from)) ||  // Lien direct: actif → talent
-        (link.from === talentId && activeNodes.includes(link.to))     // Lien inverse: talent ← actif
+        (link.to === talentId && activeIds.includes(link.from)) ||
+        (link.from === talentId && activeIds.includes(link.to))
     );
 }
 
@@ -691,9 +689,15 @@ function toggleTalent(id) {
 }
 
 // Vérifie si AU MOINS UN prérequis est rempli (directement ou indirectement)
-function checkPrerequisites(id) {
+function checkPrerequisites(id, activeTalents = null) {
     const talent = currentTalents.find(t => t.id == id);
     if (!talent) return false;
+
+    // Si activeTalents n'est pas fourni, récupérer du DOM
+    if (activeTalents === null) {
+        activeTalents = Array.from(document.querySelectorAll('.node.active'))
+            .map(node => node.dataset.id);
+    }
 
     // Si le talent n'a pas de prérequis directs, il est accessible
     if (talent.prerequisites.length === 0) {
@@ -702,23 +706,21 @@ function checkPrerequisites(id) {
 
     // Vérifie si AU MOINS UN prérequis DIRECT est actif
     const hasDirectPrereq = talent.prerequisites.some(prereqId => {
-        const prereqNode = document.querySelector(`.node[data-id="${prereqId}"]`);
-        return prereqNode && prereqNode.classList.contains('active');
+        return activeTalents.includes(prereqId.toString());
     });
 
     if (hasDirectPrereq) {
         return true;
     }
 
-    // Vérifie les prérequis indirects (chaînes de prérequis)
-    // Utilise une recherche en profondeur pour trouver un chemin vers un nœud actif
-    return hasIndirectPrerequisite(id, new Set());
+    // Vérifie les prérequis indirects
+    return hasIndirectPrerequisite(id, activeTalents, new Set());
 }
 
 // Vérifie s'il existe un chemin indirect vers un prérequis actif
-function hasIndirectPrerequisite(talentId, visited = new Set()) {
+function hasIndirectPrerequisite(talentId, activeTalents = null, visited = new Set()) {
     if (visited.has(talentId)) {
-        return false; // Évite les boucles infinies
+        return false;
     }
     visited.add(talentId);
 
@@ -727,17 +729,19 @@ function hasIndirectPrerequisite(talentId, visited = new Set()) {
         return false;
     }
 
+    // Si activeTalents n'est pas fourni, récupérer du DOM
+    if (activeTalents === null) {
+        activeTalents = Array.from(document.querySelectorAll('.node.active'))
+            .map(node => node.dataset.id);
+    }
+
     // Vérifie chaque prérequis direct
     for (const prereqId of talent.prerequisites) {
-        const prereqNode = document.querySelector(`.node[data-id="${prereqId}"]`);
-        
-        // Si ce prérequis est actif, on a trouvé un chemin
-        if (prereqNode && prereqNode.classList.contains('active')) {
+        if (activeTalents.includes(prereqId.toString())) {
             return true;
         }
 
-        // Sinon, vérifier les prérequis du prérequis (recherche récursive)
-        if (hasIndirectPrerequisite(prereqId, visited)) {
+        if (hasIndirectPrerequisite(prereqId, activeTalents, visited)) {
             return true;
         }
     }
