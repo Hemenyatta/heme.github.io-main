@@ -311,36 +311,37 @@ Object.keys(talentTrees).forEach(classKey => {
 });
 
 // Fonction pour normaliser les coordonnées de tous les talents
+// Normalise chaque arbre individuellement pour garantir le même centrage
 function normalizeAllTalents() {
-    // Trouver les limites globales de TOUS les talents des deux classes
-    let minX = Infinity, minY = Infinity;
-    let maxX = -Infinity, maxY = -Infinity;
-
     Object.keys(talentTrees).forEach(classKey => {
-        talentTrees[classKey].talents.forEach(talent => {
+        const talents = talentTrees[classKey].talents;
+        
+        // Trouver les limites pour CETTE classe uniquement
+        let minX = Infinity, minY = Infinity;
+        let maxX = -Infinity, maxY = -Infinity;
+
+        talents.forEach(talent => {
             if (talent.x < minX) minX = talent.x;
             if (talent.y < minY) minY = talent.y;
             if (talent.x > maxX) maxX = talent.x;
             if (talent.y > maxY) maxY = talent.y;
         });
-    });
 
-    // Calculer les dimensions totales
-    const width = maxX - minX;
-    const height = maxY - minY;
+        // Calculer les dimensions de cet arbre
+        const width = maxX - minX;
+        const height = maxY - minY;
 
-    // Facteur d'échelle pour adapter à 1200x1500
-    const scaleX = 1200 / width;
-    const scaleY = 1500 / height;
-    const scale = Math.min(scaleX, scaleY) * 0.9; // 0.9 pour un peu de padding
+        // Facteur d'échelle pour adapter à 1200x1500
+        const scaleX = 1200 / width;
+        const scaleY = 1500 / height;
+        const scale = Math.min(scaleX, scaleY) * 0.9; // 0.9 pour un peu de padding
 
-    // Centrage
-    const offsetX = (1200 - width * scale) / 2;
-    const offsetY = (1500 - height * scale) / 2;
+        // Centrage : chaque arbre est centré individuellement
+        const offsetX = (1200 - width * scale) / 2;
+        const offsetY = (1500 - height * scale) / 2;
 
-    // Appliquer à TOUS les talents des deux classes
-    Object.keys(talentTrees).forEach(classKey => {
-        talentTrees[classKey].talents.forEach(talent => {
+        // Appliquer à CETTE classe uniquement
+        talents.forEach(talent => {
             talent.x = (talent.x - minX) * scale + offsetX;
             talent.y = (talent.y - minY) * scale + offsetY;
         });
