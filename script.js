@@ -408,21 +408,6 @@ Object.keys(talentTrees).forEach(classKey => {
     );
 });
 
-// Fonction pour trouver les coordonnées minimales et maximales des talents
-function findBounds(talents) {
-    let minX = Infinity, minY = Infinity;
-    let maxX = -Infinity, maxY = -Infinity;
-
-    talents.forEach(talent => {
-        if (talent.x < minX) minX = talent.x;
-        if (talent.y < minY) minY = talent.y;
-        if (talent.x > maxX) maxX = talent.x;
-        if (talent.y > maxY) maxY = talent.y;
-    });
-
-    return { minX, minY, maxX, maxY };
-}
-
 // Fonction pour normaliser et centrer les coordonnées des talents
 function normalizeAndCenterTalents(talents) {
     const bounds = findBounds(talents);
@@ -445,6 +430,20 @@ function normalizeAndCenterTalents(talents) {
     });
 }
 
+function findBounds(talents) {
+    let minX = Infinity, minY = Infinity;
+    let maxX = -Infinity, maxY = -Infinity;
+
+    talents.forEach(talent => {
+        if (talent.x < minX) minX = talent.x;
+        if (talent.y < minY) minY = talent.y;
+        if (talent.x > maxX) maxX = talent.x;
+        if (talent.y > maxY) maxY = talent.y;
+    });
+
+    return { minX, minY, maxX, maxY };
+}
+
 // Variables globales pour stocker l'arbre de talents actuel
 let currentTalents = [];
 let currentLinks = [];
@@ -459,9 +458,13 @@ function initTalentTree() {
     // Générer les prérequis
     currentTalents = generatePrerequisites(currentTalents, currentLinks);
 
+    // Normaliser et centrer les talents
+    normalizeAndCenterTalents(currentTalents);
+
     renderTalentTree();
     renderLinks();
     initTooltips();
+    loadTreeState();
 }
 
 // Écouteur pour le menu déroulant
@@ -483,8 +486,6 @@ function renderTalentTree() {
     const tree = document.getElementById('tree');
     tree.innerHTML = '';
 
-    const scale = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--scale-factor'));
-
     const savedState = localStorage.getItem(`talentTree_${currentClass}`);
     const activeTalents = savedState ? JSON.parse(savedState) : [];
 
@@ -505,8 +506,9 @@ function renderTalentTree() {
 
         node.dataset.id = talent.id;
         node.dataset.tooltip = talent.description;
-        node.style.left = `${talent.x * scale}px`;
-        node.style.top = `${talent.y * scale}px`;
+        // Utiliser left et top sans transform
+        node.style.left = `${talent.x}px`;
+        node.style.top = `${talent.y}px`;
 
         node.innerHTML = `
             <img src="${talent.image}" alt="${talent.name}" class="node-img" />
@@ -521,34 +523,26 @@ function renderTalentTree() {
             node.addEventListener('click', () => toggleTalent(talent.id));
         }
     });
+
+    renderLinks();
 }
 
 // Fonction pour dessiner les liens entre les talents
 function renderLinks() {
     const tree = document.getElementById('tree');
+    
     document.querySelectorAll('.connection').forEach(el => el.remove());
 
-    const scale = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--scale-factor'));
-
     currentLinks.forEach(link => {
-        const fromTalent = currentTalents.find(t => t.id === link.from);
-        const toTalent = currentTalents.find(t => t.id === link.to);
-        if (!fromTalent || !toTalent) return;
-
         const fromNode = document.querySelector(`.node[data-id="${link.from}"]`);
         const toNode = document.querySelector(`.node[data-id="${link.to}"]`);
         if (!fromNode || !toNode) return;
 
-        // Récupérer les positions réelles des nœuds
-        const fromRect = fromNode.getBoundingClientRect();
-        const toRect = toNode.getBoundingClientRect();
-        const treeRect = tree.getBoundingClientRect();
-
-        // Calculer les coordonnées du centre des nœuds
-        const fromX = fromRect.left + fromRect.width / 2 - treeRect.left;
-        const fromY = fromRect.top + fromRect.height / 2 - treeRect.top;
-        const toX = toRect.left + toRect.width / 2 - treeRect.left;
-        const toY = toRect.top + toRect.height / 2 - treeRect.top;
+        // Utiliser les coordonnées de style (pas getBoundingClientRect)
+        const fromX = parseFloat(fromNode.style.left);
+        const fromY = parseFloat(fromNode.style.top);
+        const toX = parseFloat(toNode.style.left);
+        const toY = parseFloat(toNode.style.top);
 
         // Calculer la distance et l'angle entre les deux nœuds
         const dx = toX - fromX;
@@ -566,7 +560,7 @@ function renderLinks() {
             line.classList.add('active');
         }
 
-        const isToTalentAccessible = checkPrerequisites(toTalent.id);
+        const isToTalentAccessible = checkPrerequisites(parseInt(toNode.dataset.id));
         const isToTalentNotActive = !toNode.classList.contains('active');
         if (fromActive && isToTalentAccessible && isToTalentNotActive) {
             line.classList.add('highlight');
@@ -587,19 +581,25 @@ function renderLinks() {
 
 function adjustCoordinates() {
     const container = document.getElementById('tree-container');
+    const tree = document.getElementById('tree');
+    
     const containerWidth = container.clientWidth;
     const containerHeight = container.clientHeight;
 
-    // Calculer le facteur d'échelle pour conserver le ratio
-    const scale = Math.min(containerWidth / 1200, containerHeight / 1500);
+    // Ajouter du padding pour que l'arbre ne soit pas collé aux bords
+    const padding = 20;
+    const availableWidth = containerWidth - (padding * 2);
+    const availableHeight = containerHeight - (padding * 2);
 
-    // Appliquer le facteur d'échelle à l'arbre
+    // Calculer le facteur d'échelle pour adapter l'arbre à la fenêtre
+    const scaleX = availableWidth / 1200;
+    const scaleY = availableHeight / 1500;
+    
+    // Utiliser le facteur le plus petit pour maintenir les proportions
+    const scale = Math.min(scaleX, scaleY, 1); // Max 1 pour ne pas agrandir
+
+    // Appliquer le facteur d'échelle via la variable CSS
     document.documentElement.style.setProperty('--scale-factor', scale);
-
-    // Centrer l'arbre dans le conteneur
-    const tree = document.getElementById('tree');
-    tree.style.left = '0';
-    tree.style.top = '0';
 }
 
 // Fonction pour activer/désactiver un talent
@@ -684,12 +684,13 @@ function initTooltips() {
                 ? `<br><br><strong>Prérequis:</strong> ${talent.prerequisites.join(', ')}`
                 : '';
             tippy(node, {
-                content: `<strong>${talent.name}</strong><br>${talent.description}${prerequisitesText}`,
+                content: `${talent.name}${talent.description}${prerequisitesText}`,
                 animation: 'scale',
                 arrow: true,
                 theme: 'light-border',
                 placement: 'right',
-                followCursor: true,
+                followCursor: false,
+                interactive: true,
             });
         }
     });
@@ -697,24 +698,28 @@ function initTooltips() {
 
 // Vérifie si un nœud peut être désélectionné
 function canDeselectNode(id) {
-    const activeTalents = Array.from(document.querySelectorAll('.node.active'))
-        .map(node => parseInt(node.dataset.id));
-
+    // Le nœud 1 ne peut JAMAIS être désélectionné
     if (id === 1) {
         return false;
     }
 
+    const activeTalents = Array.from(document.querySelectorAll('.node.active'))
+        .map(node => parseInt(node.dataset.id));
+
+    // Simuler la désélection du nœud
     const activeTalentsWithoutNode = activeTalents.filter(talentId => talentId !== id);
 
+    // Vérifier chaque nœud actif restant (sauf le nœud 1)
     for (const talentId of activeTalentsWithoutNode) {
         if (talentId === 1) continue;
 
-        if (!hasPathToRoot(talentId, activeTalentsWithoutNode)) {
-            return false;
+        // Vérifier s'il existe un chemin entre ce nœud et le nœud 1
+        if (!hasPathToRoot(talentId, activeTalentsWithoutNode, new Set())) {
+            return false; // On ne peut pas désélectionner car ça isole un talent
         }
     }
 
-    return true;
+    return true; // On peut désélectionner
 }
 
 // Vérifie s'il existe un chemin entre un nœud et le nœud 1
