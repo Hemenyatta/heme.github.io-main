@@ -430,6 +430,46 @@ function normalizeAndCenterTalents(talents) {
     });
 }
 
+// Fonction pour normaliser les coordonnées de tous les talents
+function normalizeAllTalents() {
+    // Trouver les limites globales de TOUS les talents des deux classes
+    let minX = Infinity, minY = Infinity;
+    let maxX = -Infinity, maxY = -Infinity;
+
+    Object.keys(talentTrees).forEach(classKey => {
+        talentTrees[classKey].talents.forEach(talent => {
+            if (talent.x < minX) minX = talent.x;
+            if (talent.y < minY) minY = talent.y;
+            if (talent.x > maxX) maxX = talent.x;
+            if (talent.y > maxY) maxY = talent.y;
+        });
+    });
+
+    // Calculer les dimensions totales
+    const width = maxX - minX;
+    const height = maxY - minY;
+
+    // Facteur d'échelle pour adapter à 1200x1500
+    const scaleX = 1200 / width;
+    const scaleY = 1500 / height;
+    const scale = Math.min(scaleX, scaleY) * 0.9; // 0.9 pour un peu de padding
+
+    // Centrage
+    const offsetX = (1200 - width * scale) / 2;
+    const offsetY = (1500 - height * scale) / 2;
+
+    // Appliquer à TOUS les talents des deux classes
+    Object.keys(talentTrees).forEach(classKey => {
+        talentTrees[classKey].talents.forEach(talent => {
+            talent.x = (talent.x - minX) * scale + offsetX;
+            talent.y = (talent.y - minY) * scale + offsetY;
+        });
+    });
+}
+
+// Appeler cette fonction AVANT d'initialiser l'arbre
+normalizeAllTalents();
+
 function findBounds(talents) {
     let minX = Infinity, minY = Infinity;
     let maxX = -Infinity, maxY = -Infinity;
@@ -457,9 +497,6 @@ function initTalentTree() {
 
     // Générer les prérequis
     currentTalents = generatePrerequisites(currentTalents, currentLinks);
-
-    // Normaliser et centrer les talents
-    normalizeAndCenterTalents(currentTalents);
 
     renderTalentTree();
     renderLinks();
@@ -497,10 +534,12 @@ function renderTalentTree() {
             node.classList.add('active');
         }
 
-        // Vérifie si le talent est accessible
+        // Vérifie si le talent est accessible ET s'il y a un lien direct depuis un nœud actif
         const isAccessible = checkPrerequisites(talent.id);
         const isNotActive = !activeTalents.includes(talent.id.toString());
-        if (isAccessible && isNotActive) {
+        const hasDirectLinkFromActive = hasDirectLinkFromActiveNode(talent.id);
+        
+        if (isAccessible && isNotActive && hasDirectLinkFromActive) {
             node.classList.add('highlight');
         }
 
@@ -525,6 +564,20 @@ function renderTalentTree() {
     });
 
     renderLinks();
+}
+
+// Vérifie s'il existe un lien DIRECT depuis/vers un nœud actif
+function hasDirectLinkFromActiveNode(talentId) {
+    const activeNodes = Array.from(document.querySelectorAll('.node.active'))
+        .map(node => parseInt(node.dataset.id));
+
+    // Vérifier s'il existe un lien DIRECT dans les deux sens:
+    // 1. Un nœud actif → ce talent
+    // 2. Ce talent → un nœud actif (lien inverse)
+    return currentLinks.some(link => 
+        (link.to === talentId && activeNodes.includes(link.from)) ||  // Lien direct: actif → talent
+        (link.from === talentId && activeNodes.includes(link.to))     // Lien inverse: talent ← actif
+    );
 }
 
 // Fonction pour dessiner les liens entre les talents
@@ -637,21 +690,59 @@ function toggleTalent(id) {
     initTooltips();
 }
 
-// Vérifie si AU MOINS UN prérequis est rempli
+// Vérifie si AU MOINS UN prérequis est rempli (directement ou indirectement)
 function checkPrerequisites(id) {
     const talent = currentTalents.find(t => t.id == id);
     if (!talent) return false;
 
-    // Si le talent n'a pas de prérequis, il est accessible
+    // Si le talent n'a pas de prérequis directs, il est accessible
     if (talent.prerequisites.length === 0) {
         return true;
     }
 
-    // Vérifie si AU MOINS UN prérequis est actif
-    return talent.prerequisites.some(prereqId => {
+    // Vérifie si AU MOINS UN prérequis DIRECT est actif
+    const hasDirectPrereq = talent.prerequisites.some(prereqId => {
         const prereqNode = document.querySelector(`.node[data-id="${prereqId}"]`);
         return prereqNode && prereqNode.classList.contains('active');
     });
+
+    if (hasDirectPrereq) {
+        return true;
+    }
+
+    // Vérifie les prérequis indirects (chaînes de prérequis)
+    // Utilise une recherche en profondeur pour trouver un chemin vers un nœud actif
+    return hasIndirectPrerequisite(id, new Set());
+}
+
+// Vérifie s'il existe un chemin indirect vers un prérequis actif
+function hasIndirectPrerequisite(talentId, visited = new Set()) {
+    if (visited.has(talentId)) {
+        return false; // Évite les boucles infinies
+    }
+    visited.add(talentId);
+
+    const talent = currentTalents.find(t => t.id === talentId);
+    if (!talent || talent.prerequisites.length === 0) {
+        return false;
+    }
+
+    // Vérifie chaque prérequis direct
+    for (const prereqId of talent.prerequisites) {
+        const prereqNode = document.querySelector(`.node[data-id="${prereqId}"]`);
+        
+        // Si ce prérequis est actif, on a trouvé un chemin
+        if (prereqNode && prereqNode.classList.contains('active')) {
+            return true;
+        }
+
+        // Sinon, vérifier les prérequis du prérequis (recherche récursive)
+        if (hasIndirectPrerequisite(prereqId, visited)) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 // Sauvegarde l'état dans localStorage
