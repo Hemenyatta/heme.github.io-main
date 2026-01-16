@@ -485,35 +485,40 @@ let currentClass = 'class1';
 // Variables pour le carousel
 let currentIndex = 0;
 const classes = Object.keys(talentTrees);
+let totalSlots = 0; // Sera calculé après initCarousel
 
-// Initialiser le carousel
+// Initialiser le carousel avec duplication pour l'effet infini
 function initCarousel() {
     const carousel = document.getElementById('carousel');
     carousel.innerHTML = '';
 
-    classes.forEach((classKey, index) => {
-        const treeSlot = document.createElement('div');
-        treeSlot.className = 'tree-slot';
-        treeSlot.id = `tree-slot-${index}`;
-        if (index === currentIndex) {
-            treeSlot.classList.add('active');
-        }
+    // Créer 3 cycles de classes pour l'effet infini
+    const numCycles = 3;
+    
+    for (let cycle = 0; cycle < numCycles; cycle++) {
+        classes.forEach((classKey, index) => {
+            const treeSlot = document.createElement('div');
+            treeSlot.className = 'tree-slot';
+            treeSlot.id = `tree-slot-${cycle * classes.length + index}`;
+            
+            const treeContainer = document.createElement('div');
+            treeContainer.id = `tree-container-${cycle * classes.length + index}`;
+            treeContainer.className = 'tree-container';
 
-        const treeContainer = document.createElement('div');
-        treeContainer.id = `tree-container-${index}`;
-        treeContainer.className = 'tree-container';
+            const tree = document.createElement('div');
+            tree.id = `tree-${cycle * classes.length + index}`;
+            tree.className = 'tree';
+            tree.dataset.classKey = classKey;
+            tree.dataset.index = cycle * classes.length + index;
 
-        const tree = document.createElement('div');
-        tree.id = `tree-${index}`;
-        tree.className = 'tree';
-        tree.dataset.classKey = classKey;
-        tree.dataset.index = index;
-
-        treeContainer.appendChild(tree);
-        treeSlot.appendChild(treeContainer);
-        carousel.appendChild(treeSlot);
-    });
-
+            treeContainer.appendChild(tree);
+            treeSlot.appendChild(treeContainer);
+            carousel.appendChild(treeSlot);
+        });
+    }
+    
+    totalSlots = classes.length * numCycles;
+    currentIndex = classes.length; // Commencer au cycle central
     updateCarouselPosition();
 }
 
@@ -523,6 +528,10 @@ function updateCarouselPosition() {
     const translateX = -currentIndex * 100;
     carousel.style.transform = `translateX(${translateX}%)`;
 
+    // Récupérer le slot actif et la classe correspondante
+    const actualClassIndex = currentIndex % classes.length;
+    const classKey = classes[actualClassIndex];
+    
     // Mettre à jour les classes active/prev/next
     document.querySelectorAll('.tree-slot').forEach((slot, index) => {
         slot.classList.remove('active', 'prev', 'next');
@@ -536,7 +545,7 @@ function updateCarouselPosition() {
     });
 
     // Mettre à jour l'arbre actif
-    currentClass = classes[currentIndex];
+    currentClass = classKey;
     currentTalents = JSON.parse(JSON.stringify(talentTrees[currentClass].talents));
     currentLinks = talentTrees[currentClass].links;
     currentTalents = generatePrerequisites(currentTalents, currentLinks);
@@ -570,14 +579,14 @@ function setupCarouselListeners() {
 
     if (leftArrow && rightArrow) {
         leftArrow.addEventListener('click', () => {
-            // Boucle infinie avec modulo
-            currentIndex = (currentIndex - 1 + classes.length) % classes.length;
+            // Avancer avec les totalSlots pour effet infini
+            currentIndex = (currentIndex - 1 + totalSlots) % totalSlots;
             updateCarouselPosition();
         });
 
         rightArrow.addEventListener('click', () => {
-            // Boucle infinie avec modulo
-            currentIndex = (currentIndex + 1) % classes.length;
+            // Avancer avec les totalSlots pour effet infini
+            currentIndex = (currentIndex + 1) % totalSlots;
             updateCarouselPosition();
         });
     }
@@ -585,10 +594,10 @@ function setupCarouselListeners() {
     // Navigation au clavier - boucle infinie
     document.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowLeft') {
-            currentIndex = (currentIndex - 1 + classes.length) % classes.length;
+            currentIndex = (currentIndex - 1 + totalSlots) % totalSlots;
             updateCarouselPosition();
         } else if (e.key === 'ArrowRight') {
-            currentIndex = (currentIndex + 1) % classes.length;
+            currentIndex = (currentIndex + 1) % totalSlots;
             updateCarouselPosition();
         }
     });
