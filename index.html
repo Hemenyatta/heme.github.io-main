@@ -68,11 +68,17 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
+      margin: 0 auto;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     #carousel {
       display: flex;
       height: 100%;
+      width: 100%;
       transition: transform 1.2s cubic-bezier(0.4, 0.0, 0.2, 1);
     }
 
@@ -98,7 +104,7 @@
     }
 
     .tree-container {
-        position: relative;
+        position: absolute;
         width: 100%;
         height: 100%;
         overflow: hidden;
@@ -106,10 +112,12 @@
         justify-content: center;
         align-items: center;
         background-color: transparent;
+        top: 0;
+        left: 0;
     }
 
     .tree {
-        position: relative;
+        position: absolute;
         width: 1200px;
         height: 1500px;
         transform-origin: center;
@@ -117,6 +125,10 @@
         background-color: transparent;
         opacity: 1;
         transition: opacity 0.4s ease-in-out;
+        top: 50%;
+        left: 50%;
+        margin-left: -600px;
+        margin-top: -750px;
     }
 
     .tree.fade-out {
