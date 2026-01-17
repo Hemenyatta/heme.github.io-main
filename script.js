@@ -669,6 +669,13 @@ function renderTalentTree() {
         } else {
             node.classList.remove('highlight');
         }
+
+        // Ajouter ou retirer la classe locked
+        if (!isActive && !isAccessible) {
+            node.classList.add('locked');
+        } else {
+            node.classList.remove('locked');
+        }
     });
 
     renderLinks();

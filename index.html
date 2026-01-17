@@ -138,14 +138,24 @@
     .node {
       position: absolute;
       cursor: pointer;
-      transition: transform 0.2s;
+      transition: transform 0.2s, filter 0.3s ease;
       width: 65px;
       height: 65px;
       transform: translate(-50%, -50%);
     }
 
-    .node:hover {
-      transform: translate(-50%, -50%) scale(1.1);
+    .node:hover:not(.locked) {
+      transform: translate(-50%, -50%) scale(1.2);
+    }
+
+    .node.locked {
+      cursor: not-allowed;
+      opacity: 0.5;
+      filter: grayscale(60%) brightness(0.8);
+    }
+
+    .node.locked:hover {
+      transform: translate(-50%, -50%);
     }
 
     .node-img {
@@ -175,6 +185,16 @@
       background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, rgba(255, 215, 0, 0) 70%);
       z-index: -1;
       pointer-events: none;
+      animation: glow-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes glow-pulse {
+      0%, 100% { 
+        box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.6);
+      }
+      50% { 
+        box-shadow: 0 0 20px 5px rgba(255, 215, 0, 0.2);
+      }
     }
 
     .connection {
@@ -183,6 +203,7 @@
       background-color: #888;
       transform-origin: 0 0;
       z-index: -1;
+      transition: all 0.3s ease;
     }
 
     .connection.active {
