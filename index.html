@@ -139,8 +139,8 @@
       position: absolute;
       cursor: pointer;
       transition: transform 0.2s;
-      width: 80px;
-      height: 80px;
+      width: 65px;
+      height: 65px;
       transform: translate(-50%, -50%);
     }
 
@@ -153,13 +153,13 @@
       height: 100%;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid transparent;
+      border: 3px solid transparent;
       transition: all 0.3s ease;
     }
 
     .node.active .node-img {
-      border: 2px solid gold;
-      box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+      border: 3px solid gold;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
       animation: pulse 2s infinite;
       transform: scale(1.15);
     }
@@ -167,10 +167,10 @@
     .node.active::before {
       content: '';
       position: absolute;
-      top: -5px;
-      left: -5px;
-      right: -5px;
-      bottom: -5px;
+      top: -8px;
+      left: -8px;
+      right: -8px;
+      bottom: -8px;
       border-radius: 50%;
       background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, rgba(255, 215, 0, 0) 70%);
       z-index: -1;
@@ -179,7 +179,7 @@
 
     .connection {
       position: absolute;
-      height: 5px;
+      height: 10px;
       background-color: #888;
       transform-origin: 0 0;
       z-index: -1;
@@ -187,16 +187,16 @@
 
     .connection.active {
       background-color: #ffd700;
-      height: 5px;
-      box-shadow: 0 0 5px rgba(255, 215, 0, 0.7);
+      height: 10px;
+      box-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
     }
 
     .node.highlight {
-      filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.5));
+      filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.5));
     }
 
     .node.highlight .node-img {
-        border: 2px solid rgba(255, 215, 0, 0.4);
+        border: 3px solid rgba(255, 215, 0, 0.4);
     }
 
     .connection.highlight {
@@ -238,30 +238,30 @@
     }
 
     .tooltip-content {
-        padding: 20px 26px;
+        padding: 24px 32px;
     }
 
     .tooltip-title {
-        font-size: 22px;
+        font-size: 26px;
         font-weight: bold;
         color: #ffd700;
-        margin-bottom: 10px;
+        margin-bottom: 12px;
         text-transform: uppercase;
         letter-spacing: 0.5px;
     }
 
     .tooltip-description {
-        font-size: 17px;
+        font-size: 20px;
         color: #e0e0e0;
-        margin-bottom: 12px;
+        margin-bottom: 14px;
         line-height: 1.4;
     }
 
     .tooltip-status {
         border-top: 1px solid rgba(255, 215, 0, 0.3);
-        padding-top: 10px;
-        margin-top: 10px;
-        font-size: 15px;
+        padding-top: 12px;
+        margin-top: 12px;
+        font-size: 18px;
         text-align: center;
     }
 
