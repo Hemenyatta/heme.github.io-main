@@ -751,11 +751,10 @@ function renderLinks() {
 
         // Appliquer les styles au lien
         line.style.width = `${length}px`;
-        line.style.height = '2px';
-        line.style.transform = `rotate(${angle}rad)`;
         line.style.position = 'absolute';
         line.style.left = `${fromX}px`;
         line.style.top = `${fromY}px`;
+        line.style.transform = `rotate(${angle}rad)`;
         line.style.transformOrigin = '0 0';
 
         tree.appendChild(line);
